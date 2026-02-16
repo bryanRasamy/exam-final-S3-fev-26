@@ -19,11 +19,11 @@ use flight\net\Router;
 $router->group('', function(Router $router) use ($app) {
 	$gestioncontroller = new GestionLivraisonController($app);
 	$router->get('/',function(){
-		Flight::render('login');
+		Flight::render('modele');
 	});
 
 	$router->get('/modele',function(){
-		Flight::render('utilisateur/Modele');
+		Flight::render('modele');
 	});
 
 	$router->get('/admin',function(){
