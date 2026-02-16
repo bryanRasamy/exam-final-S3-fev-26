@@ -40,6 +40,7 @@ CREATE TABLE bngrc_don(
 	id_don INT PRIMARY KEY AUTO_INCREMENT,
 	id_produit INT,
 	donateur VARCHAR(100),
+	quantite INT,
 	date DATE,
 	FOREIGN KEY (id_produit) REFERENCES bngrc_produit(id_produit)
 );

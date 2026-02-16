@@ -18,19 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
 
-    // === Active link highlight (based on current filename) ===
-    var currentPath = window.location.pathname;
-    var currentFile = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'modele.php';
-    document.querySelectorAll('.nav-link').forEach(function (link) {
-        var href = link.getAttribute('href');
-        if (href) {
-            var linkFile = href.substring(href.lastIndexOf('/') + 1);
-            if (linkFile === currentFile) {
-                link.classList.add('active');
-            }
-        }
-    });
-
     // === Filtre par région (dashboard) ===
     var filterSelect = document.getElementById('filterRegion');
     var regionCount  = document.getElementById('regionCount');
