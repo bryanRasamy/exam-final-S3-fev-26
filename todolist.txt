@@ -1,29 +1,25 @@
 ETU004018 - ETU003962 - ETU003905
 
 TABLE SQL: 
-	-Table region(id_region, region);
-	-Table ville(id_ville,id_region,ville);
-	-Table categorie(id_categorie,categorie [nature, materiaux, argent ]);
-	-Table produit(id_produit,id_categorie,nom,prix_unitaire);
-	-Table besoin(id_besoin,id_ville,id_produit,quantite);
-	-Table don(id_don,id_produit,date);
+	-(ok) Table region(id_region, region);
+	-(ok) Table ville(id_ville,id_region,ville);
+	-(ok) Table categorie(id_categorie,categorie [nature, materiaux, argent ]);
+	-(ok) Table produit(id_produit,id_categorie,nom,prix_unitaire);
+	-(ok) Table besoin(id_besoin,id_ville,id_produit,quantite);
+	-(ok) Table don(id_don,id_produit,date);
 	
 
 	
 PAGE PHP:
-	-Statistique.php:
-		-base:
-			-Table user;
-			-Table echange;
-			
-		-fonctions:
-			-getnombreuser();
-			-getnombreechangeeffectuer();
-			
-		-design:
-			-Graphique du nombre d'utilisateurs inscrit + nombre total des inscrits;
-			-Graphique en baton du nombre d'echange effectuer;
-			
-		-integration:
-			-affichage des donnee en dynamique
+	-(ok) modele.php:
+		-base: none
 		
+		-fonction: none
+		
+		-(ok) design:
+			-(ok) header
+			-(ok) footer
+			-(ok) vertical navbar
+			
+		-(ok) integration:
+			-(ok) mettre un include dans le modele pour les pages
