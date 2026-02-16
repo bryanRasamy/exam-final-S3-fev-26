@@ -1,9 +1,10 @@
 <?php
+extract(get_defined_vars());
 
-if (!isset($_GET['page'])) {
+if (!isset($currentPage)) {
     $page = 'dashboard';
 } else {
-    $page = $_GET['page'];
+    $page = $currentPage;
 }
 
 ?>
@@ -75,19 +76,19 @@ if (!isset($_GET['page'])) {
                 <span class="sidebar-label">Gestion</span>
                 <ul class="nav-list">
                     <li>
-                        <a href="<?= BASE_URL ?>/modele?page=besoins" class="nav-link">
+                        <a href="<?= BASE_URL ?>/besoin" class="nav-link">
                             <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
                             <span class="nav-text">Évaluation des Besoins</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<?= BASE_URL ?>/modele?page=dons" class="nav-link">
+                        <a href="<?= BASE_URL ?>/dons" class="nav-link">
                             <span class="nav-icon"><i class="fas fa-hand-holding-heart"></i></span>
                             <span class="nav-text">Enregistrement des Dons</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<?= BASE_URL ?>/modele?page=distributions" class="nav-link">
+                        <a href="<?= BASE_URL ?>/distributions" class="nav-link">
                             <span class="nav-icon"><i class="fas fa-truck"></i></span>
                             <span class="nav-text">Simulation des Distributions</span>
                         </a>
@@ -118,9 +119,9 @@ if (!isset($_GET['page'])) {
         </div>
         <div class="footer-devs">
             <span class="footer-label"><i class="fas fa-code"></i> Équipe Dev</span>
-            <span class="dev-badge">ETU003905</span>
-            <span class="dev-badge">ETU003962</span>
-            <span class="dev-badge">ETU004018</span>
+            <span class="dev-badge">Tsilavo ETU003905</span>
+            <span class="dev-badge">Hasina ETU003962</span>
+            <span class="dev-badge">Bryan ETU004018</span>
         </div>
     </footer>
 

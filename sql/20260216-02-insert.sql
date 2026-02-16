@@ -29,10 +29,10 @@ INSERT INTO bngrc_besoin (id_ville, id_produit, quantite) VALUES
 (1, 1, 1500);
 
 
-INSERT INTO bngrc_don (id_produit,donateur,date) VALUES
-(1,'fanjakana', '2026-02-01'),
-(2,'fanjakana' ,'2026-02-05'),
-(3,'fanjakana' ,'2026-02-07'),
-(4,'fanjakana', '2026-02-10'),
-(1,'fanjakana', '2026-02-12');
+INSERT INTO bngrc_don (id_produit,donateur,quantite,date) VALUES
+(1,'fanjakana', 500, '2026-02-01'),
+(2,'fanjakana', 100, '2026-02-05'),
+(3,'fanjakana', 250, '2026-02-07'),
+(4,'fanjakana', 350, '2026-02-10'),
+(1,'fanjakana', 750, '2026-02-12');
 

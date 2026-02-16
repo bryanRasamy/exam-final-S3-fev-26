@@ -3,21 +3,21 @@
 
     use Flight;
 
-    class ColisModel{
+    class ProduitModel{
         private $db;
 
         public function __construct($db){
             $this->db = $db;
         }
 
-        public function getAllcolis(){
-            $stmt=$this->db->query("SELECT * FROM transport_colis ORDER BY nom_colis ASC");
+        public function getAllProduits(){
+            $stmt=$this->db->query("SELECT * FROM bngrc_produit ORDER BY nom ASC");
 
             return $stmt->fetchAll();
         }
 
-        public function getcolis($id){
-            $stmt=$this->db->prepare("SELECT * FROM transport_colis WHERE id_colis=?");
+        public function getProduit($id){
+            $stmt=$this->db->prepare("SELECT * FROM bngrc_produit WHERE id_produit=?");
             $stmt->execute([$id]);
 
             return $stmt->fetch();

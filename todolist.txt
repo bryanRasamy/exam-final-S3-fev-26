@@ -23,3 +23,14 @@ PAGE PHP:
 			
 		-(ok) integration:
 			-(ok) mettre un include dans le modele pour les pages
+			
+	-dashboard.php:
+		-base:
+
+		-fonction:
+		
+		-design:
+			-
+		
+		-integration:
+		
