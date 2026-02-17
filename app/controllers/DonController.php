@@ -50,6 +50,10 @@ class DonController {
 		$dons = $DonModel->getAllDons();
 		$besoins = $DonModel->getAllBesoins();
 
+		if ($mode === 'besoin') {
+			$besoins = $DonModel->getBesoinsParPetiteQuantite();
+		}
+		
 		$besoinRestant = [];
 		foreach ($besoins as $b) {
 			$besoinRestant[$b['id_besoin']] = $b['quantite'];

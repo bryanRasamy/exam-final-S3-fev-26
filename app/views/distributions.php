@@ -13,8 +13,15 @@
         <form method="get" action="<?= BASE_URL ?>/distributions" class="d-inline">
             <label for="mode" class="me-2">Mode de distribution :</label>
             <select name="mode" id="mode" class="form-select d-inline w-auto">
-                <option value="ordre" <?= ($mode ?? 'ordre') == 'ordre' ? 'selected' : '' ?>>Ordre</option>
-                <option value="proportionnel" <?= ($mode ?? 'ordre') == 'proportionnel' ? 'selected' : '' ?>>Proportionnel</option>
+                <option value="ordre" <?= ($mode ?? 'ordre') == 'ordre' ? 'selected' : '' ?>>
+                    <i class="fas fa-clock"></i> date plus recente
+                </option>
+                <option value="besoin" <?= ($mode ?? 'ordre') == 'besoin' ? 'selected' : '' ?>>
+                    <i class="fas fa-sort-amount-down"></i> Plus petits besoins
+                </option>
+                <option value="proportionnel" <?= ($mode ?? 'ordre') == 'proportionnel' ? 'selected' : '' ?>>
+                    <i class="fas fa-percentage"></i> Répartition proportionnelle
+                </option>
             </select>
             <button type="submit" class="btn btn-info text-white ms-2">
                 <i class="fas fa-eye me-1"></i> Simuler (Prévisualisation)
