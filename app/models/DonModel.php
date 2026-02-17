@@ -46,12 +46,12 @@
         }
 
         public function getAllBesoins(){
-            $stmt = $this->db->query("SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, v.ville FROM bngrc_besoin b JOIN bngrc_ville v ON b.id_ville = v.id_ville ORDER BY b.id_besoin ASC");
+            $stmt = $this->db->query("SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, b.date, v.ville FROM bngrc_besoin b JOIN bngrc_ville v ON b.id_ville = v.id_ville ORDER BY b.date ASC, b.id_besoin ASC");
             return $stmt->fetchAll();
         }
 
         public function getBesoinsParPetiteQuantite() {
-            $sql = "SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, v.ville 
+            $sql = "SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, b.date, v.ville 
                     FROM bngrc_besoin b 
                     JOIN bngrc_ville v ON b.id_ville = v.id_ville 
                     ORDER BY b.quantite ASC";
@@ -104,21 +104,24 @@
                         c.categorie,
                         p.prix_unitaire,
                         b.quantite AS besoin_total,
-                        COALESCE(SUM(s.quantite_attribuee), 0) AS deja_recu,
-                        (b.quantite - COALESCE(SUM(s.quantite_attribuee), 0)) AS reste,
-                        COALESCE(SUM(achat.total_achete), 0) AS deja_achete
+                        COALESCE(sim.total_recu, 0) AS deja_recu,
+                        COALESCE(achat.total_achete, 0) AS deja_achete,
+                        (b.quantite - COALESCE(sim.total_recu, 0) - COALESCE(achat.total_achete, 0)) AS reste
                     FROM bngrc_besoin b
                     JOIN bngrc_ville v ON b.id_ville = v.id_ville
                     JOIN bngrc_produit p ON b.id_produit = p.id_produit
                     JOIN bngrc_categorie c ON p.id_categorie = c.id_categorie
-                    LEFT JOIN bngrc_simulation s ON s.id_besoin = b.id_besoin
+                    LEFT JOIN (
+                        SELECT id_besoin, SUM(quantite_attribuee) AS total_recu
+                        FROM bngrc_simulation
+                        GROUP BY id_besoin
+                    ) sim ON sim.id_besoin = b.id_besoin
                     LEFT JOIN (
                         SELECT id_besoin, SUM(quantite) AS total_achete 
                         FROM bngrc_achat 
                         GROUP BY id_besoin
                     ) achat ON achat.id_besoin = b.id_besoin
                     WHERE c.categorie != 'Argent'
-                    GROUP BY b.id_besoin
                     HAVING reste > 0
                     ORDER BY v.ville, p.nom";
             return $this->db->query($sql)->fetchAll(\PDO::FETCH_ASSOC);

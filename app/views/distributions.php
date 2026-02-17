@@ -48,7 +48,7 @@
                 <table class="table table-sm city-table mb-0">
                     <thead>
                         <tr>
-                            <th>Date don</th>
+                            <th>Date distribution</th>
                             <th>Don</th>
                             <th>Quantité don</th>
                             <th>Ville attribuée</th>
