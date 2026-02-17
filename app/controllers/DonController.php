@@ -57,6 +57,8 @@ class DonController {
 
 		$distributions = [];
 
+		$DonModel->clearSimulation();
+
 		foreach ($dons as $don) {
 			$resteDon = $don['quantite'];
 
@@ -67,6 +69,8 @@ class DonController {
 				if ($besoinRestant[$besoin['id_besoin']] <= 0) continue;
 
 				$attribue = min($resteDon, $besoinRestant[$besoin['id_besoin']]);
+
+				$DonModel->insertSimulation($besoin['id_besoin'], $don['id_don'], $attribue);
 
 				$distributions[] = [
 					'date' => $don['date'],

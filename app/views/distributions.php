@@ -12,7 +12,6 @@
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
             <h5 class="fw-bold mb-0"><i class="fas fa-list-alt text-info me-2"></i>Liste des distributions simulées</h5>
-            <span class="badge bg-primary-subtle text-primary fs-6">12 distributions</span>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
