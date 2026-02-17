@@ -32,6 +32,7 @@ CREATE TABLE bngrc_besoin(
 	id_ville INT,
 	id_produit INT,
 	quantite INT,
+	date DATE,
 	FOREIGN KEY (id_ville) REFERENCES bngrc_ville(id_ville),
 	FOREIGN KEY (id_produit) REFERENCES bngrc_produit(id_produit)
 );

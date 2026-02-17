@@ -80,7 +80,7 @@ class DonController {
 					$distributions[] = [
 						'id_besoin' => $besoin['id_besoin'],
 						'id_don' => $don['id_don'],
-						'date' => $don['date'],
+						'date' => $besoin['date'],
 						'produit_nom' => $don['produit_nom'],
 						'don_quantite' => $don['quantite'],
 						'ville' => $besoin['ville'],
@@ -111,7 +111,7 @@ class DonController {
 					$distributions[] = [
 						'id_besoin' => $attr['besoin']['id_besoin'],
 						'id_don' => $don['id_don'],
-						'date' => $don['date'],
+						'date' => $attr['besoin']['date'],
 						'produit_nom' => $don['produit_nom'],
 						'don_quantite' => $don['quantite'],
 						'ville' => $attr['besoin']['ville'],
