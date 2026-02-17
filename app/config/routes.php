@@ -2,6 +2,7 @@
 
 use app\controllers\BesoinController;
 use app\controllers\DonController;
+use app\controllers\ProduitController;
 use app\controllers\VilleController;
 use app\models\DonModel;
 
@@ -27,6 +28,11 @@ $router->group('', function(Router $router) use ($app) {
 	$router->get('/besoin',[$besoin,'getinfopourinsertion']);
 
 	$router->post('/besoin/insert',[$besoin,'insertbesoin']);
+
+	$produit = new ProduitController($app);
+	$router->get('/produits',[$produit,'getinfopourinsertion']);
+
+	$router->post('/produits/insert',[$produit,'insertproduit']);
 
 	$don = new DonController($app);
 	$router->get('/dons',[$don,'getinfopourinsertion']);

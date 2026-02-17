@@ -63,6 +63,12 @@ if (!isset($currentPage)) {
                 <span class="sidebar-label">Gestion</span>
                 <ul class="nav-list">
                     <li>
+                        <a href="<?= BASE_URL ?>/produits" class="nav-link">
+                            <span class="nav-icon"><i class="fas fa-box-open"></i></span>
+                            <span class="nav-text">Ajout de Produit</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?= BASE_URL ?>/besoin" class="nav-link">
                             <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
                             <span class="nav-text">Évaluation des Besoins</span>
