@@ -48,4 +48,23 @@
                     
             return $this->db->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
         }
+
+        public function getDetailsBesoinsVille($id_ville) {
+            $sql = "SELECT * FROM bngrc_v_detail_besoins_produits 
+                    WHERE id_ville = ? 
+                    ORDER BY id_categorie, nom_produit";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id_ville]);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+
+        public function getVilleById($id_ville) {
+            $sql = "SELECT v.*, r.region FROM bngrc_ville v 
+                    JOIN bngrc_region r ON v.id_region = r.id_region 
+                    WHERE v.id_ville = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id_ville]); 
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        }
 }

@@ -32,4 +32,39 @@ class VilleController {
             'villesGroupées' => $villesGroupées
         ]);
     }
+
+    public function detail($id_ville) {
+        $id_ville = (int)$id_ville;
+
+        if ($id_ville <= 0) {
+            Flight::redirect('/ville');
+            return;
+        }
+
+        $db = $this->app->db();
+        $villeModel = new VilleModel($db);
+        
+        $infosVille = $villeModel->getVilleById($id_ville);
+        
+        if (!$infosVille) {
+            Flight::halt(404, 'Ville introuvable');
+            return;
+        }
+
+        $detailsRaw = $villeModel->getDetailsBesoinsVille($id_ville);
+        
+        $besoinsParCategorie = [];
+
+        if ($detailsRaw) {
+            foreach ($detailsRaw as $row) {
+                $besoinsParCategorie[$row['nom_categorie']][] = $row;
+            }
+        }
+
+        Flight::render('modele', [
+            'currentPage' => 'ville', 
+            'ville' => $infosVille,
+            'categories' => $besoinsParCategorie
+        ]);
     }
+}

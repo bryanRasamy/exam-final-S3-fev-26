@@ -40,19 +40,6 @@ if (!isset($currentPage)) {
                 </div>
             </div>
         </div>
-        <div class="header-right">
-            <div class="header-badge">
-                <i class="fas fa-bell"></i>
-                <span class="badge-dot"></span>
-            </div>
-            <div class="header-user">
-                <div class="avatar">A</div>
-                <div class="user-info">
-                    <span class="user-name">Administrateur</span>
-                    <span class="user-role">Gestionnaire</span>
-                </div>
-            </div>
-        </div>
     </header>
 
     <!-- ========== LAYOUT ========== -->
@@ -93,13 +80,25 @@ if (!isset($currentPage)) {
                             <span class="nav-text">Simulation des Distributions</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= BASE_URL ?>/achats" class="nav-link">
+                            <span class="nav-icon"><i class="fas fa-shopping-cart"></i></span>
+                            <span class="nav-text">Achats (Dons Argent)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= BASE_URL ?>/recapitulation" class="nav-link">
+                            <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>
+                            <span class="nav-text">Récapitulation</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
             <div class="sidebar-footer">
                 <div class="sidebar-app-info">
                     <i class="fas fa-shield-alt"></i>
-                    <span>BNGRC v1.0</span>
+                    <span>BNGRC v2.0</span>
                 </div>
             </div>
         </nav>

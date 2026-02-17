@@ -12,7 +12,7 @@
                         <div class="card city-card h-100 shadow-sm border-0">
                             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                                 <span class="fw-bold text-dark"><i class="fas fa-city me-2"></i><?= htmlspecialchars($nomVille) ?></span>
-                                <a href="modele.php?page=ville&id=<?= $info['id'] ?>" class="btn btn-sm btn-outline-primary border-0"><i class="fas fa-external-link-alt"></i></a>
+                                <a href="<?= BASE_URL ?>/ville/detail/<?= $info['id'] ?>" class="btn btn-sm btn-outline-primary border-0"><i class="fas fa-external-link-alt"></i></a>
                             </div>
                             <div class="card-body p-0">
                                 <table class="table table-sm mb-0">
