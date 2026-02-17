@@ -50,9 +50,27 @@
         }
 
         public function getDetailsBesoinsVille($id_ville) {
-            $sql = "SELECT * FROM bngrc_v_detail_besoins_produits 
-                    WHERE id_ville = ? 
-                    ORDER BY id_categorie, nom_produit";
+            $sql = "SELECT 
+                        b.id_ville,
+                        p.id_produit,
+                        p.nom AS nom_produit,
+                        p.prix_unitaire,
+                        c.id_categorie,
+                        c.categorie AS nom_categorie,
+                        SUM(b.quantite) AS besoin_produit,
+                        COALESCE(SUM(recu.total_recu), 0) AS recu_produit,
+                        (SUM(b.quantite) - COALESCE(SUM(recu.total_recu), 0)) AS reste_produit
+                    FROM bngrc_besoin b
+                    JOIN bngrc_produit p ON b.id_produit = p.id_produit
+                    JOIN bngrc_categorie c ON p.id_categorie = c.id_categorie
+                    LEFT JOIN (
+                        SELECT s.id_besoin, SUM(s.quantite_attribuee) AS total_recu
+                        FROM bngrc_simulation s
+                        GROUP BY s.id_besoin
+                    ) recu ON recu.id_besoin = b.id_besoin
+                    WHERE b.id_ville = ?
+                    GROUP BY b.id_ville, p.id_produit, p.nom, p.prix_unitaire, c.id_categorie, c.categorie
+                    ORDER BY c.id_categorie, p.nom";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$id_ville]);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);

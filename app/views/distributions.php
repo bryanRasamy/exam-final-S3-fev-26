@@ -10,10 +10,18 @@
     <h2 class="page-title"><i class="fas fa-truck"></i> Simulation des Distributions</h2>
 
     <div class="d-flex gap-2 mb-3">
-        <a href="<?= BASE_URL ?>/distributions" class="btn btn-info text-white">
-            <i class="fas fa-eye me-1"></i> Simuler (Prévisualisation)
-        </a>
+        <form method="get" action="<?= BASE_URL ?>/distributions" class="d-inline">
+            <label for="mode" class="me-2">Mode de distribution :</label>
+            <select name="mode" id="mode" class="form-select d-inline w-auto">
+                <option value="ordre" <?= ($mode ?? 'ordre') == 'ordre' ? 'selected' : '' ?>>Ordre</option>
+                <option value="proportionnel" <?= ($mode ?? 'ordre') == 'proportionnel' ? 'selected' : '' ?>>Proportionnel</option>
+            </select>
+            <button type="submit" class="btn btn-info text-white ms-2">
+                <i class="fas fa-eye me-1"></i> Simuler (Prévisualisation)
+            </button>
+        </form>
         <form action="<?= BASE_URL ?>/distributions/valider" method="post" style="display:inline;">
+            <input type="hidden" name="mode" value="<?= $mode ?? 'ordre' ?>">
             <button type="submit" class="btn btn-success" onclick="return confirm('Voulez-vous vraiment valider et sauvegarder cette distribution ?')">
                 <i class="fas fa-check-circle me-1"></i> Valider et Sauvegarder
             </button>
