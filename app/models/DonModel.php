@@ -50,6 +50,15 @@
             return $stmt->fetchAll();
         }
 
+        public function getBesoinsParPetiteQuantite() {
+            $sql = "SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, v.ville 
+                    FROM bngrc_besoin b 
+                    JOIN bngrc_ville v ON b.id_ville = v.id_ville 
+                    ORDER BY b.quantite ASC";
+            $stmt = $this->db->query($sql);
+            return $stmt->fetchAll();
+        }
+
         public function clearSimulation(){
             $this->db->exec("DELETE FROM bngrc_simulation");
         }
