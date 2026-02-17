@@ -106,7 +106,7 @@
                         b.quantite AS besoin_total,
                         COALESCE(SUM(s.quantite_attribuee), 0) AS deja_recu,
                         (b.quantite - COALESCE(SUM(s.quantite_attribuee), 0)) AS reste,
-                        COALESCE(achat.total_achete, 0) AS deja_achete
+                        COALESCE(SUM(achat.total_achete), 0) AS deja_achete
                     FROM bngrc_besoin b
                     JOIN bngrc_ville v ON b.id_ville = v.id_ville
                     JOIN bngrc_produit p ON b.id_produit = p.id_produit
@@ -179,5 +179,33 @@
                     VALUES (?, ?, ?, ?, ?, NOW())";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$id_besoin, $quantite, $prix_unitaire, $frais_pourcent, $cout_total]);
+        }
+
+        public function resetDatabase(){
+            // Chemin vers le dossier sql/
+            $sqlDir = __DIR__ . '/../../sql/';
+
+            // Désactiver les vérifications de clés étrangères
+            $this->db->exec("SET FOREIGN_KEY_CHECKS = 0");
+
+            // Vider toutes les tables
+            $this->db->exec("TRUNCATE TABLE bngrc_achat");
+            $this->db->exec("TRUNCATE TABLE bngrc_simulation");
+            $this->db->exec("TRUNCATE TABLE bngrc_don");
+            $this->db->exec("TRUNCATE TABLE bngrc_besoin");
+            $this->db->exec("TRUNCATE TABLE bngrc_produit");
+            $this->db->exec("TRUNCATE TABLE bngrc_categorie");
+            $this->db->exec("TRUNCATE TABLE bngrc_ville");
+            $this->db->exec("TRUNCATE TABLE bngrc_region");
+
+            // Réactiver les vérifications de clés étrangères
+            $this->db->exec("SET FOREIGN_KEY_CHECKS = 1");
+
+            // Lire et exécuter le fichier d'insertions initiales
+            $sqlFile = $sqlDir . '20260216-02-insert.sql';
+            if (file_exists($sqlFile)) {
+                $sql = file_get_contents($sqlFile);
+                $this->db->exec($sql);
+            }
         }
     }
