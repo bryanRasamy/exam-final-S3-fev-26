@@ -18,8 +18,8 @@
                 <i class="fas fa-check-circle me-1"></i> Valider et Sauvegarder
             </button>
         </form>
-        <a href="<?= BASE_URL ?>/clear" class="btn btn-info text-white">
-            <i class="fas fa-eye me-1"></i> Reinitialiser (Revenir à l'état initial)
+        <a href="<?= BASE_URL ?>/clear" class="btn btn-danger text-white">
+            <i class="fas fa-redo me-1"></i> Réinitialiser (Revenir à l'état initial)
         </a>
     </div>
 
