@@ -104,7 +104,7 @@ $router->group('', function(Router $router) use ($app) {
 
 	$router->get('/clear', function () use ($app) {
 		$donModel = new DonModel($app->db());
-		$donModel->clearSimulation();
-		Flight::redirect('/distributions');
+		$donModel->resetDatabase();
+		Flight::redirect('/');
 	});
 });
