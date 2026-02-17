@@ -86,4 +86,10 @@ $router->group('', function(Router $router) use ($app) {
 
 	$villedetail = new VilleController($app);
     $router->get('/ville/detail/@id_ville', [$villedetail, 'detail']);
+
+	$router->get('/clear', function () use ($app) {
+		$donModel = new DonModel($app->db());
+		$donModel->clearSimulation();
+		Flight::redirect('/distributions');
+	});
 });
