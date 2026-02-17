@@ -40,13 +40,28 @@ $router->group('', function(Router $router) use ($app) {
 	$router->post('/dons/insert',[$don,'insertdon']);
 
 	$router->get('/distributions', function () use ($don){
-		$distributions = $don->calculerDistribution();
-		Flight::render('modele', ['distributions' => $distributions, 'currentPage' => 'distributions']);
+		$mode = Flight::request()->query['mode'] ?? 'ordre';
+		$distributions = $don->calculerDistribution($mode);
+
+		$consolidated = [];
+		foreach ($distributions as $d) {
+			$key = $d['id_don'] . '_' . $d['ville'];
+			if (isset($consolidated[$key])) {
+				$consolidated[$key]['quantite_attribuee'] += $d['quantite_attribuee'];
+				$consolidated[$key]['reste_besoin'] += $d['reste_besoin'];
+			} else {
+				$consolidated[$key] = $d;
+			}
+		}
+		$distributions = array_values($consolidated);
+
+		Flight::render('modele', ['distributions' => $distributions, 'currentPage' => 'distributions', 'mode' => $mode]);
 	});
 
 	$router->post('/distributions/valider', function () use ($don){
-		$don->validerDistribution();
-		Flight::redirect('/distributions');
+		$mode = Flight::request()->data->mode ?? 'ordre';
+		$don->validerDistribution($mode);
+		Flight::redirect('/distributions?mode=' . $mode);
 	});
 
 	$router->get('/recapitulation', function (){

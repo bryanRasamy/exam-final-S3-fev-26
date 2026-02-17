@@ -45,7 +45,7 @@ class DonController {
 		Flight::redirect('/dons');
 	}
 
-	public function calculerDistribution(){
+	public function calculerDistribution($mode = 'ordre'){
 		$DonModel = new DonModel($this->app->db());
 		$dons = $DonModel->getAllDons();
 		$besoins = $DonModel->getAllBesoins();
@@ -57,39 +57,101 @@ class DonController {
 
 		$distributions = [];
 
-		foreach ($dons as $don) {
-			$resteDon = $don['quantite'];
+		if ($mode == 'proportionnel') {
+			
+			$donsParProduit = [];
+			foreach ($dons as $don) {
+				$donsParProduit[$don['id_produit']][] = $don;
+			}
 
-			foreach ($besoins as $besoin) {
-				if ($resteDon <= 0) break;
-				if ($don['id_produit'] != $besoin['id_produit']) continue;
-				if ($besoinRestant[$besoin['id_besoin']] <= 0) continue;
+			foreach ($donsParProduit as $id_produit => $donsProduit) {
+				$besoinsProduit = array_filter($besoins, function($b) use ($id_produit, $besoinRestant) {
+					return $b['id_produit'] == $id_produit && $besoinRestant[$b['id_besoin']] > 0;
+				});
 
-				$attribue = min($resteDon, $besoinRestant[$besoin['id_besoin']]);
+				if (empty($besoinsProduit)) continue;
 
-				$distributions[] = [
-					'id_besoin' => $besoin['id_besoin'],
-					'id_don' => $don['id_don'],
-					'date' => $don['date'],
-					'produit_nom' => $don['produit_nom'],
-					'don_quantite' => $don['quantite'],
-					'ville' => $besoin['ville'],
-					'quantite_attribuee' => $attribue,
-					'reste_besoin' => $besoinRestant[$besoin['id_besoin']] - $attribue
-				];
+				$totalBesoinRestant = array_sum(array_map(function($b) use ($besoinRestant) {
+					return $besoinRestant[$b['id_besoin']];
+				}, $besoinsProduit));
 
-				$besoinRestant[$besoin['id_besoin']] -= $attribue;
-				$resteDon -= $attribue;
+				foreach ($donsProduit as $don) {
+					$resteDon = $don['quantite'];
+					$attributions = [];
+					$totalAttribue = 0;
+
+
+					$floorParts = [];
+					foreach ($besoinsProduit as $besoin) {
+						$floorParts[$besoin['id_besoin']] = 0;
+					}
+
+					foreach ($besoinsProduit as $besoin) {
+						if ($resteDon <= 0) break;
+						$part = floor(($besoinRestant[$besoin['id_besoin']] / $totalBesoinRestant) * $don['quantite']);
+						$part = min($part, $besoinRestant[$besoin['id_besoin']], $resteDon);
+						if ($part > 0) {
+							$attributions[] = [
+								'besoin' => $besoin,
+								'quantite' => $part
+							];
+							$totalAttribue += $part;
+							$besoinRestant[$besoin['id_besoin']] -= $part;
+							$resteDon -= $part;
+							
+							$floorParts[$besoin['id_besoin']] = $part;
+						}
+					}
+
+					foreach ($attributions as $attr) {
+						$distributions[] = [
+							'id_besoin' => $attr['besoin']['id_besoin'],
+							'id_don' => $don['id_don'],
+							'date' => $don['date'],
+							'produit_nom' => $don['produit_nom'],
+							'don_quantite' => $don['quantite'],
+							'ville' => $attr['besoin']['ville'],
+							'quantite_attribuee' => $attr['quantite'],
+							'reste_besoin' => $besoinRestant[$attr['besoin']['id_besoin']]
+						];
+					}
+				}
+			}
+		} else {
+			foreach ($dons as $don) {
+				$resteDon = $don['quantite'];
+
+				foreach ($besoins as $besoin) {
+					if ($resteDon <= 0) break;
+					if ($don['id_produit'] != $besoin['id_produit']) continue;
+					if ($besoinRestant[$besoin['id_besoin']] <= 0) continue;
+
+					$attribue = min($resteDon, $besoinRestant[$besoin['id_besoin']]);
+
+					$distributions[] = [
+						'id_besoin' => $besoin['id_besoin'],
+						'id_don' => $don['id_don'],
+						'date' => $don['date'],
+						'produit_nom' => $don['produit_nom'],
+						'don_quantite' => $don['quantite'],
+						'ville' => $besoin['ville'],
+						'quantite_attribuee' => $attribue,
+						'reste_besoin' => $besoinRestant[$besoin['id_besoin']] - $attribue
+					];
+
+					$besoinRestant[$besoin['id_besoin']] -= $attribue;
+					$resteDon -= $attribue;
+				}
 			}
 		}
 
 		return $distributions;
 	}
 
-	public function validerDistribution(){
+	public function validerDistribution($mode = 'ordre'){
 		$DonModel = new DonModel($this->app->db());
 
-		$distributions = $this->calculerDistribution();
+		$distributions = $this->calculerDistribution($mode);
 
 		$DonModel->clearSimulation();
 		foreach ($distributions as $d) {
