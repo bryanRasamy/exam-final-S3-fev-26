@@ -2,6 +2,7 @@
 
 use app\controllers\BesoinController;
 use app\controllers\DonController;
+use app\controllers\VilleController;
 
 use flight\Engine;
 use flight\net\Router;
@@ -35,4 +36,7 @@ $router->group('', function(Router $router) use ($app) {
 		$distributions = $don->simulerDistribution();
 		Flight::render('modele', ['distributions' => $distributions, 'currentPage' => 'distributions']);
 	});
+
+	$ville = new VilleController($app);
+	$router->get('/ville',[$ville,'index']);
 });

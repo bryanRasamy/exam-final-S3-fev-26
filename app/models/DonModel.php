@@ -49,4 +49,14 @@
             $stmt = $this->db->query("SELECT b.id_besoin, b.id_ville, b.id_produit, b.quantite, v.ville FROM bngrc_besoin b JOIN bngrc_ville v ON b.id_ville = v.id_ville ORDER BY b.id_besoin ASC");
             return $stmt->fetchAll();
         }
+
+        public function clearSimulation(){
+            $this->db->exec("DELETE FROM bngrc_simulation");
+        }
+
+        public function insertSimulation($id_besoin, $id_don, $quantite_attribuee){
+            $sql = "INSERT INTO bngrc_simulation (id_besoin, id_don, quantite_attribuee) VALUES (?, ?, ?)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id_besoin, $id_don, $quantite_attribuee]);
+        }
     }

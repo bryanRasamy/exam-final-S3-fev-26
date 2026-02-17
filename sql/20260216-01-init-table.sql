@@ -46,3 +46,11 @@ CREATE TABLE bngrc_don(
 );
 
 
+CREATE TABLE bngrc_simulation(
+	id_distribution INT PRIMARY KEY AUTO_INCREMENT,
+	id_besoin INT,
+	id_don INT,
+	quantite_attribuee INT,
+	FOREIGN KEY (id_besoin) REFERENCES bngrc_besoin(id_besoin),
+	FOREIGN KEY (id_don) REFERENCES bngrc_don(id_don)
+);

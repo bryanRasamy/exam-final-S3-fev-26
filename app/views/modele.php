@@ -64,7 +64,7 @@ if (!isset($currentPage)) {
                 <span class="sidebar-label">Navigation</span>
                 <ul class="nav-list">
                     <li>
-                        <a href="<?= BASE_URL ?>/modele" class="nav-link">
+                        <a href="<?= BASE_URL ?>/ville" class="nav-link">
                             <span class="nav-icon"><i class="fas fa-th-large"></i></span>
                             <span class="nav-text">Tableau de Bord</span>
                         </a>
